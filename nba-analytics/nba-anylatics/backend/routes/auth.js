@@ -16,7 +16,7 @@ router.post('/register', async (req, res) => {
     if (existing.length > 0)
       return res.status(409).json({ error: 'Email già registrata' });
 
-    const hash = await bash(password, 10);
+    const hash = await bcrypt.hash(password, 10);
     await db.query(
       'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)',
       [username, email, hash]
